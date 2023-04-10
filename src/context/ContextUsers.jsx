@@ -11,7 +11,13 @@ const initialState = {
     favs:JSON.parse(localStorage.getItem("favs")) || [],
 };
 
-
+const removeFav = (id, state) =>{
+    const cleanFav = state.favs.filter((fav)=> fav.id !== id)
+    console.log();
+    localStorage.setItem("favs", JSON.stringify (cleanFav))
+    return cleanFav
+    
+}
 
 const globalReducer = (state, action) =>{
     switch(action.type){
@@ -22,7 +28,16 @@ const globalReducer = (state, action) =>{
         case "GET_USER":
                     return { ...state, user: action.payload };
         case "HANDLE_FAVORITE":
-                    return { ...state, favs: action.payload };
+            const isFavorite = state.favs.some((fav)=>fav.id === action.payload.id)
+            
+            isFavorite 
+            ? removeFav(action.payload.id, state)
+            : localStorage.setItem("favs", JSON.stringify([...state.favs, action.payload])) //es necesario hacer el llamado para que obtenga el ultimo registro
+
+                    return isFavorite
+                     ? { ...state, favs: removeFav(action.payload.id, state) }
+                     :{ ...state, favs: [...state.favs, action.payload]};
+                      //desestructuro state.favs y le agrego lo que llega en action.payload
     }
 
 }

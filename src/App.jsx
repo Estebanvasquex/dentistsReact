@@ -12,7 +12,7 @@ function App() {
       <ContextDentistsProvider>
         <Routes>
           <Route element={<NavBarLayoutContainer />}>
-            <Route path="/" element={<h1>BIENVENIDO</h1>} />
+            <Route path="/" element={<DentistsContainer/>} />
             <Route path="/dentists" element={<DentistsContainer />} />
             <Route path="/dentist/:id" element={<DentistDetailContainer />} />
             <Route path="/favorite" element={<DentistFavoriteContainer />} />
